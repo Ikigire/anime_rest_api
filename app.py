@@ -322,7 +322,7 @@ class FullAnimeList(Resource):
                 'studioId': studio
             }))
         
-        results = db.write_transaction(create_user, username, password)
+        results = db.write_transaction(create_anime)
         anime = results['a']
         return serialize_anime(anime), 201
         
