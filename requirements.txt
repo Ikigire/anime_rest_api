@@ -1,7 +1,7 @@
 wheel
 Flask
 blinker
-Flask-RESTful>0.3.9
+Flask-RESTful
 Flask-Cors
 flask-restful-swagger-2
 Flask-JSON
