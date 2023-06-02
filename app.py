@@ -51,3 +51,6 @@ api.add_resource(AnimeListByName,       '/api/v0/animes/by_name/<string:anime_na
 api.add_resource(AnimeListByStudio,     '/api/v0/animes/by_studio/<string:studio_name>')
 api.add_resource(AnimeListByReleaseYear,'/api/v0/animes/by_release_year/<int:release_year>')
 api.add_resource(AnimesById,            '/api/v0/animes/by_id/<int:animeId>')
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
