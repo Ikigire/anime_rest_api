@@ -93,7 +93,7 @@ class AnimeListByStudio(Resource):
     def get(self, studio_name):
         def get_animes(tx):
             # return list(tx.run("match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) return a.AnimeID as AnimeID, a.Name as Name, a.Japanese_name as Japanese_name, a.Episodes as Episodes, a.Release_season as Release_season, a.Tags as Tags, a.Rating as Rating, a.Release_year as Release_year, a.Viewed as Viewed, t.Type as Type, s.Name as Studio"))
-            cypher_query = "match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) where toLower(s.Name) contains toLower('" + studio_name + "') return a, t, s"
+            cypher_query = "match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) where toLower(s.Name) contains toLower('" + studio_name + "') return a, t, s ORDER BY a.Release_year DESC"
             return list(tx.run(cypher_query))
         db = get_db()
         result = db.write_transaction(get_animes)
@@ -103,7 +103,7 @@ class AnimeListByName(Resource):
     def get(self, anime_name):
         def get_animes(tx):
             # return list(tx.run("match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) return a.AnimeID as AnimeID, a.Name as Name, a.Japanese_name as Japanese_name, a.Episodes as Episodes, a.Release_season as Release_season, a.Tags as Tags, a.Rating as Rating, a.Release_year as Release_year, a.Viewed as Viewed, t.Type as Type, s.Name as Studio"))
-            cypher_query = "match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) where toLower(a.Name) contains toLower('" +anime_name + "') or toLower(a.Japanese_name) contains toLower('" +anime_name + "') return a, t, s"
+            cypher_query = "match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) where toLower(a.Name) contains toLower('" +anime_name + "') or toLower(a.Japanese_name) contains toLower('" +anime_name + "') return a, t, s ORDER BY a.Release_year DESC"
             return list(tx.run(cypher_query))
         db = get_db()
         result = db.write_transaction(get_animes)
@@ -118,7 +118,7 @@ class AnimeListByReleaseYear(Resource):
                 '''
                 MATCH (a:Anime{Release_year: $release_year})-[]->(t)
                 MATCH (s:Studio)-[]->(a)
-                RETURN a, s, t
+                RETURN a, s, t ORDER BY a.Release_year DESC
                 ''',
                 {
                     'release_year': release_year
