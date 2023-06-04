@@ -8,7 +8,7 @@ class StudioList(Resource):
     
     def get(self):
         def get_studios(tx):
-            return list(tx.run('MATCH (studio:Studio) RETURN studio'))
+            return list(tx.run('MATCH (studio:Studio) RETURN studio ORDER BY studio.Name'))
         db = get_db()
         result = db.write_transaction(get_studios)
         return [serialize_studio(record['studio']) for record in result]

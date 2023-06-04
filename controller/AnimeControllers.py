@@ -15,7 +15,7 @@ class FullAnimeList(Resource):
     def get(self):
         def get_animes(tx):
             # return list(tx.run("match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) return a.AnimeID as AnimeID, a.Name as Name, a.Japanese_name as Japanese_name, a.Episodes as Episodes, a.Release_season as Release_season, a.Tags as Tags, a.Rating as Rating, a.Release_year as Release_year, a.Viewed as Viewed, t.Type as Type, s.Name as Studio"))
-            return list(tx.run("match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) return a, t, s"))
+            return list(tx.run("match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) return a, t, s ORDER BY a.Release_year DESC"))
         db = get_db()
         result = db.write_transaction(get_animes)
         return [serialize_full_anime(record) for record in result]

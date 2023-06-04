@@ -23,7 +23,7 @@ class TypeList(Resource):
                 '''
                 MATCH (type:Type)
                 WHERE toLower(type.Type) = toLower($type)
-                RETURN type
+                RETURN type ORDER BY type.TypeId
                 ''', {'type': tipo}
             ).single()
 
