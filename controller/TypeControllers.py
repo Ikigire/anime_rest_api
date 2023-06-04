@@ -14,7 +14,7 @@ class TypeList(Resource):
     def post(self):
         data = request.get_json()
 
-        tipo = data.get('type')
+        tipo = data.get('Type')
         if not tipo:
             return {'type': 'This field is required.'}, 400
 
@@ -68,7 +68,7 @@ class TypesById(Resource):
     def put(self, typeId):
         data = request.get_json()
         # typeId = data.get('typeId')
-        tipo = data.get('type')
+        tipo = data.get('Type')
         def update_type(tx, typeId, tipo):
             return tx.run(
                 '''

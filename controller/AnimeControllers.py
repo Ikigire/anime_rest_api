@@ -22,16 +22,16 @@ class FullAnimeList(Resource):
 
     def post(self):
         data = request.get_json()
-        name = data.get('name')
-        japanese_name = data.get('japanese_name')
-        episodes = data.get('episodes')
-        release_season = data.get('release_season')
-        tags = data.get('tags')
-        rating = data.get('rating')
-        release_year = data.get('release_year')
+        name = data.get('Name')
+        japanese_name = data.get('Japanese_name')
+        episodes = data.get('Episodes')
+        release_season = data.get('Release_season')
+        tags = data.get('Tags')
+        rating = data.get('Rating')
+        release_year = data.get('Release_year')
 
-        tipo = data.get('type')
-        studio = data.get('studio')
+        tipo = data.get('TypeId')
+        studio = data.get('StudioId')
         
         if not name:
             return {'name': 'This field is required.'}, 400
@@ -149,17 +149,17 @@ class AnimesById(Resource):
     
     def put(self, animeId):
         data = request.get_json()
-        name = data.get('name')
-        japanese_name = data.get('japanese_name')
-        episodes = data.get('episodes')
-        release_season = data.get('release_season')
-        tags = data.get('tags')
-        rating = data.get('rating')
-        release_year = data.get('release_year')
-        viewed = data.get('viewed')
+        name = data.get('Name')
+        japanese_name = data.get('Japanese_name')
+        episodes = data.get('Episodes')
+        release_season = data.get('Release_season')
+        tags = data.get('Tags')
+        rating = data.get('Rating')
+        release_year = data.get('Release_year')
 
-        tipo = data.get('type')
-        studio = data.get('studio')
+        tipo = data.get('TypeId')
+        studio = data.get('StudioId')
+        viewed = data.get('Viewed')
         
         if not name:
             return {'name': 'This field is required.'}, 400

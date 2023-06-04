@@ -16,7 +16,7 @@ class StudioList(Resource):
     def post(self):
         data = request.get_json()
 
-        name = data.get('name')
+        name = data.get('Name')
         if not name:
             return {'name': 'This field is required.'}, 400
 
@@ -70,7 +70,7 @@ class StudioById(Resource):
     def put(self, studioId):
         data = request.get_json()
         # typeId = data.get('typeId')
-        name = data.get('name')
+        name = data.get('Name')
         def update_studio(tx, studioId, name):
             return tx.run(
                 '''
