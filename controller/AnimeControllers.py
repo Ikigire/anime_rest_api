@@ -188,15 +188,14 @@ class AnimesById(Resource):
         data = request.get_json()
         name = data.get('Name')
         japanese_name = data.get('Japanese_name')
-        episodes = data.get('Episodes')
         release_season = data.get('Release_season')
         tags = data.get('Tags')
-        rating = data.get('Rating')
-        release_year = data.get('Release_year')
-
-        tipo = data.get('TypeId')
-        studio = data.get('StudioId')
-        viewed = data.get('Viewed')
+        rating = float(data.get('Rating'))
+        release_year = int(data.get('Release_year'))
+        episodes = int(data.get('Episodes'))
+        tipo = int(data.get('TypeId'))
+        studio = int(data.get('StudioId'))
+        viewed = bool(data.get('Viewed'))
         
         if not name:
             return {'name': 'This field is required.'}, 400
@@ -214,8 +213,8 @@ class AnimesById(Resource):
                 MATCH (s:Studio{StudioId: $studioId})
                 SET a.Name= $name, a.Japanese_name = $japanese_name, a.Episodes = $episodes, a.Release_season = $release_season, a.Tags = $tags, a.Rating = $rating, a.Release_year = $release_year, a.Viewed = $viewed
                 DELETE r, p
-                merge (a)-[:TRANSMITTED_IN]->(ty)
-                merge (st)-[:PRODUCED]->(a)
+                merge (a)-[:TRANSMITTED_IN]->(t)
+                merge (s)-[:PRODUCED]->(a)
                 return a, s, t
                 ''',
                 {
