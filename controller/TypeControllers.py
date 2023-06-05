@@ -36,7 +36,7 @@ class TypeList(Resource):
             return tx.run(
                 '''
                 MATCH (types: Type)
-                WITH max(types:TypeId)+1 as id
+                WITH max(types.TypeId)+1 as id
                 CREATE (type:Type {TypeId: id, Type: $type})
                 RETURN type
                 ''',
