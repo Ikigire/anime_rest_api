@@ -28,8 +28,6 @@ class FullAnimeList(Resource):
         print('\n\nData name:' + name)
         japanese_name = data.get('Japanese_name')
         print('\n\nData japanese_name:' + japanese_name)
-        episodes = int(data.get('Episodes'))
-        print('\n\nData episodes:' + episodes)
         release_season = data.get('Release_season')
         print('\n\nData release_season:' + release_season)
         tags = data.get('Tags')
@@ -38,6 +36,8 @@ class FullAnimeList(Resource):
         print('\n\nData rating:' + rating)
         release_year = int(data.get('Release_year'))
         print('\n\nData release_year:' + release_year)
+        episodes = int(data.get('Episodes'))
+        print('\n\nData episodes:' + episodes)
 
         tipo = int(data.get('TypeId'))
         print('\n\nData tipo:' + tipo)
