@@ -39,7 +39,7 @@ class StudioList(Resource):
                 '''
                 MATCH (studios: Studio)
                 WITH count(studios)+1 as id
-                CREATE (studio:Type {StudioId: id, Name: $name})
+                CREATE (studio:Studio {StudioId: id, Name: $name})
                 RETURN studio
                 ''',
                 {
@@ -48,8 +48,8 @@ class StudioList(Resource):
             ).single()
 
         results = db.write_transaction(create_studio, name)
-        tipo = results['studio']
-        return serialize_studio(tipo), 201
+        studio = results['studio']
+        return serialize_studio(studio), 201
 
 class StudioById(Resource):
     def get(self, studioId):

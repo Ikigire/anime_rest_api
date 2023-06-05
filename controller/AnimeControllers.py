@@ -17,6 +17,7 @@ class FullAnimeList(Resource):
             # return list(tx.run("match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) return a.AnimeID as AnimeID, a.Name as Name, a.Japanese_name as Japanese_name, a.Episodes as Episodes, a.Release_season as Release_season, a.Tags as Tags, a.Rating as Rating, a.Release_year as Release_year, a.Viewed as Viewed, t.Type as Type, s.Name as Studio"))
             return list(tx.run("match (a:Anime)-[]->(t) match (s:Studio)-[]->(a) return a, t, s"))
         db = get_db()
+        abc = 0
         result = db.write_transaction(get_animes)
         return [serialize_full_anime(record) for record in result]
 
@@ -60,28 +61,52 @@ class FullAnimeList(Resource):
         if result:
             return {'error': 'Anime name is already registered'}, 400
         
-        def create_anime(tx, name, japanese_name, episodes, release_season, tags, rating, release_year, tipo, studio):
-            cypher_query = '''
-                match (t:Type {TypeId: $typeId})
-                match (s:Studio{StudioId: $studioId})
+        def create_anime(tx, name, japanese_name, episodes, release_season, tags, rating, release_year, typeId, studioId):
+            return tx.run(
+                '''
+                match (tipo:Type {TypeId: $typeId})
+                match (studio:Studio{StudioId: $studioId})
                 match (animes:Anime)
-                with count(animes)+1 as id, t as t, s as s
-                merge (a:Anime{AnimeID: id, Name: $name, Japanese_name: $japanese_name, Episodes: $episodes, Release_season: $release_season, Tags: $tags, Rating: $rating, Release_year: $release_year, Viewed: False})
+                with count(animes)+1 as id, tipo as t, studio as s
+                create (a:Anime{AnimeID: id, Name: $name, Japanese_name: $j_name, Episodes: $episodes, Release_season: $season, Tags: $tags, Rating: $rating, Release_year: $year, Viewed: False})
                 merge (a)-[:TRANSMITTED_IN]->(t)
                 merge (s)-[:PRODUCED]->(a)
                 return a, t, s
-            '''
-            return tx.run(cypher_query, {
-                'name': name,
-                'japanese_name': japanese_name,
-                'episodes': episodes,
-                'release_season': release_season,
-                'tags': tags,
-                'rating': rating,
-                'release_year': release_year,
-                'typeId': tipo,
-                'studioId': studio
-            }).single()
+                ''',
+                {
+                    "typeId": typeId,
+                    "studioId": studioId,
+                    "name": name,
+                    "j_name": japanese_name,
+                    "episodes": episodes,
+                    "season": release_season,
+                    "tags": tags,
+                    "rating": rating,
+                    "year": release_year
+                }
+            ).single
+        # def create_anime(tx, name, japanese_name, episodes, release_season, tags, rating, release_year, tipo, studio):
+        #     cypher_query = '''
+        #         match (type:Type {TypeId: $typeId})
+        #         match (studio:Studio{StudioId: $studioId})
+        #         match (animes:Anime)
+        #         with count(animes)+1 as id, type as t, studio as s
+        #         merge (a:Anime{AnimeID: id, Name: $name, Japanese_name: $japanese_name, Episodes: $episodes, Release_season: $release_season, Tags: $tags, Rating: $rating, Release_year: $release_year, Viewed: False})
+        #         merge (a)-[:TRANSMITTED_IN]->(t)
+        #         merge (s)-[:PRODUCED]->(a)
+        #         return a, t, s
+        #     '''
+        #     return tx.run(cypher_query, {
+        #         'name': name,
+        #         'japanese_name': japanese_name,
+        #         'episodes': episodes,
+        #         'release_season': release_season,
+        #         'tags': tags,
+        #         'rating': rating,
+        #         'release_year': release_year,
+        #         'typeId': tipo,
+        #         'studioId': studio
+        #     }).single()
         
         result = db.write_transaction(create_anime, name, japanese_name, episodes, release_season, tags, rating, release_year, tipo, studio)
         print(result)
