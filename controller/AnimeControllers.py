@@ -22,6 +22,7 @@ class FullAnimeList(Resource):
 
     def post(self):
         data = request.get_json()
+        print(data)
         name = data.get('Name')
         japanese_name = data.get('Japanese_name')
         episodes = data.get('Episodes')
@@ -83,7 +84,7 @@ class FullAnimeList(Resource):
             }).single()
         
         result = db.write_transaction(create_anime, name, japanese_name, episodes, release_season, tags, rating, release_year, tipo, studio)
-        
+        print(result)
         return serialize_full_anime(result), 201
         
 

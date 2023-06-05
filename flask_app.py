@@ -53,4 +53,4 @@ api.add_resource(AnimeListByReleaseYear,'/api/v0/animes/by_release_year/<int:rel
 api.add_resource(AnimesById,            '/api/v0/animes/by_id/<int:animeId>')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
