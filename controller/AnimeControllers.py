@@ -33,16 +33,16 @@ class FullAnimeList(Resource):
         tags = data.get('Tags')
         print('\n\nData tags:' + tags)
         rating = float(data.get('Rating'))
-        print('\n\nData rating:' + rating)
+        print('\n\nData rating:' + str(rating))
         release_year = int(data.get('Release_year'))
-        print('\n\nData release_year:' + release_year)
+        print('\n\nData release_year:' + str(release_year))
         episodes = int(data.get('Episodes'))
-        print('\n\nData episodes:' + episodes)
+        print('\n\nData episodes:' + str(episodes))
 
         tipo = int(data.get('TypeId'))
-        print('\n\nData tipo:' + tipo)
+        print('\n\nData tipo:' + str(tipo))
         studio = int(data.get('StudioId'))
-        print('\n\nData studio:' + studio)
+        print('\n\nData studio:' + str(studio))
         
         if not name:
             return {'name': 'This field is required.'}, 400
