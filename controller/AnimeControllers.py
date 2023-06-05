@@ -84,7 +84,7 @@ class FullAnimeList(Resource):
                     "rating": rating,
                     "year": release_year
                 }
-            ).single
+            ).single()
         # def create_anime(tx, name, japanese_name, episodes, release_season, tags, rating, release_year, tipo, studio):
         #     cypher_query = '''
         #         match (type:Type {TypeId: $typeId})
