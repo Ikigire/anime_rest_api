@@ -64,25 +64,25 @@ class FullAnimeList(Resource):
         def create_anime(tx, name, japanese_name, episodes, release_season, tags, rating, release_year, typeId, studioId):
             return tx.run(
                 '''
-                match (tipo:Type {TypeId: $typeId})
-                match (studio:Studio{StudioId: $studioId})
+                match (tipo:Type {TypeId: $type})
+                match (studio:Studio{StudioId: $studio})
                 match (animes:Anime)
                 with count(animes)+1 as id, tipo as t, studio as s
-                create (a:Anime{AnimeID: id, Name: $name, Japanese_name: $j_name, Episodes: $episodes, Release_season: $season, Tags: $tags, Rating: $rating, Release_year: $year, Viewed: False})
+                create (a:Anime{AnimeID: id, Name: $anime_name, Japanese_name: $anime_j_name, Episodes: $anime_episodes, Release_season: $anime_season, Tags: $anime_tags, Rating: $anime_rating, Release_year: $anime_year, Viewed: False})
                 merge (a)-[:TRANSMITTED_IN]->(t)
                 merge (s)-[:PRODUCED]->(a)
                 return a, t, s
                 ''',
                 {
-                    "typeId": typeId,
-                    "studioId": studioId,
-                    "name": name,
-                    "j_name": japanese_name,
-                    "episodes": episodes,
-                    "season": release_season,
-                    "tags": tags,
-                    "rating": rating,
-                    "year": release_year
+                    "type": typeId,
+                    "studio": studioId,
+                    "anime_name": name,
+                    "anime_j_name": japanese_name,
+                    "anime_episodes": episodes,
+                    "anime_season": release_season,
+                    "anime_tags": tags,
+                    "anime_rating": rating,
+                    "anime_year": release_year
                 }
             ).single()
         # def create_anime(tx, name, japanese_name, episodes, release_season, tags, rating, release_year, tipo, studio):
@@ -110,6 +110,8 @@ class FullAnimeList(Resource):
         
         result = db.write_transaction(create_anime, name, japanese_name, episodes, release_season, tags, rating, release_year, tipo, studio)
         print(result)
+        if not result or result == None:
+            return {'error', 'Anime not saved due an internal server error'}, 409
         return serialize_full_anime(result), 201
         
 
