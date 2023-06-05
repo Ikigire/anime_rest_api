@@ -76,7 +76,7 @@ class FullAnimeList(Resource):
                 match (tipo:Type {TypeId: $type})
                 match (studio:Studio{StudioId: $studio})
                 match (animes:Anime)
-                with count(animes)+1 as id, tipo as t, studio as s
+                with max(animes:AnimeID)+1 as id, tipo as t, studio as s
                 create (a:Anime{AnimeID: id, Name: $anime_name, Japanese_name: $anime_j_name, Episodes: $anime_episodes, Release_season: $anime_season, Tags: $anime_tags, Rating: $anime_rating, Release_year: $anime_year, Viewed: False})
                 merge (a)-[:TRANSMITTED_IN]->(t)
                 merge (s)-[:PRODUCED]->(a)
@@ -193,9 +193,13 @@ class AnimesById(Resource):
         rating = float(data.get('Rating'))
         release_year = int(data.get('Release_year'))
         episodes = int(data.get('Episodes'))
-        tipo = int(data.get('TypeId'))
-        studio = int(data.get('StudioId'))
         viewed = bool(data.get('Viewed'))
+        try:
+            tipo = int(data.get('TypeId'))
+            studio = int(data.get('StudioId'))
+        except :
+            tipo = None
+            studio = None
         
         if not name:
             return {'name': 'This field is required.'}, 400

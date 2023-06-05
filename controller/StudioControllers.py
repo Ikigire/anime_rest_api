@@ -38,7 +38,7 @@ class StudioList(Resource):
             return tx.run(
                 '''
                 MATCH (studios: Studio)
-                WITH count(studios)+1 as id
+                WITH max(studios:StudioId)+1 as id
                 CREATE (studio:Studio {StudioId: id, Name: $name})
                 RETURN studio
                 ''',
