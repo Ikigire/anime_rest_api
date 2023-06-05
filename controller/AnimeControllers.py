@@ -25,15 +25,24 @@ class FullAnimeList(Resource):
         data = request.get_json()
         print(data)
         name = data.get('Name')
+        print('\n\nData:' + name)
         japanese_name = data.get('Japanese_name')
+        print('\n\nData:' + japanese_name)
         episodes = data.get('Episodes')
+        print('\n\nData:' + episodes)
         release_season = data.get('Release_season')
+        print('\n\nData:' + release_season)
         tags = data.get('Tags')
+        print('\n\nData:' + tags)
         rating = data.get('Rating')
+        print('\n\nData:' + rating)
         release_year = data.get('Release_year')
+        print('\n\nData:' + release_year)
 
         tipo = data.get('TypeId')
+        print('\n\nData:' + tipo)
         studio = data.get('StudioId')
+        print('\n\nData:' + studio)
         
         if not name:
             return {'name': 'This field is required.'}, 400
