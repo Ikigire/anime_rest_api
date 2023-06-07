@@ -2,8 +2,8 @@ from flask import Flask, g
 from flask_restful import Api
 from flask_cors import CORS
 from flask_json import FlaskJSON, json_response
-from controller.AnimeControllers import AnimeListByName, AnimeListByReleaseYear, AnimeListByStudio, AnimesById, FullAnimeList
 
+from controller.AnimeControllers import AnimeListByName, AnimeListByReleaseYear, AnimeListByStudio, AnimesById, FullAnimeList
 from controller.StudioControllers import StudioById, StudioList
 from controller.TypeControllers import TypeList, TypesById 
 
